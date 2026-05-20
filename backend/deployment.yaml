@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend-container
+        image: taibaton/backend-ltw:latest
+        ports:
+        - containerPort: 8080
+        # --- THÊM ĐOẠN DƯỚI ĐÂY VÀO ---
+        env:
+        - name: DB_HOST
+          value: "mysql-service" 
+        - name: DB_PASSWORD
+          value: "password123"
+        # ------------------------------
