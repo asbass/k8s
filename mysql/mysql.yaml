@@ -34,7 +34,7 @@ spec:
         - name: MYSQL_ROOT_PASSWORD
           value: "123456" # Sau này bạn nên đổi sang K8s Secret
         - name: MYSQL_DATABASE
-          value: "ten_database_cua_ban" # Tên DB ứng dụng sẽ dùng
+          value: "qlbh" # Tên DB ứng dụng sẽ dùng
         ports:
         - containerPort: 3306
         volumeMounts:
