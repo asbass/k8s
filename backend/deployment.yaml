@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: backend-container
-        image: taibaton/backend-ltw:latest
+        image: taibaton/ltw:latest
         ports:
         - containerPort: 8080
         # --- THÊM ĐOẠN DƯỚI ĐÂY VÀO ---
