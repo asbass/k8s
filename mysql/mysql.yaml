@@ -1,3 +1,4 @@
+# 1. Yêu cầu cấp ổ cứng (Storage)
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -5,15 +6,19 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
+  storageClassName: gp2 # Đảm bảo EKS của bạn hỗ trợ gp2
   resources:
     requests:
       storage: 5Gi
 ---
+# 2. Định nghĩa Database chạy trong cụm (StatefulSet)
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
-  name: mysql-deployment
+  name: mysql
 spec:
+  serviceName: "mysql-service"
+  replicas: 1
   selector:
     matchLabels:
       app: mysql
@@ -27,13 +32,32 @@ spec:
         image: mysql:8.0
         env:
         - name: MYSQL_ROOT_PASSWORD
-          value: "123456" # Nên dùng K8s Secret thay vì để text thế này
+          value: "123456" # Sau này bạn nên đổi sang K8s Secret
+        - name: MYSQL_DATABASE
+          value: "ten_database_cua_ban" # Tên DB ứng dụng sẽ dùng
         ports:
         - containerPort: 3306
         volumeMounts:
         - name: mysql-persistent-storage
           mountPath: /var/lib/mysql
-      volumes:
-      - name: mysql-persistent-storage
-        persistentVolumeClaim:
-          claimName: mysql-pv-claim
+  volumeClaimTemplates: # StatefulSet tự tạo PVC
+  - metadata:
+      name: mysql-persistent-storage
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: gp2
+      resources:
+        requests:
+          storage: 5Gi
+---
+# 3. Service để Backend kết nối tới MySQL
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-service
+spec:
+  ports:
+  - port: 3306
+    targetPort: 3306
+  selector:
+    app: mysql
