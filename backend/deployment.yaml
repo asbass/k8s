@@ -19,10 +19,9 @@ spec:
         - containerPort: 8080
         # --- THÊM ĐOẠN DƯỚI ĐÂY VÀO ---
         env:
-          - name: DB_URL
-            # "mysql-service" chính là tên Service ở trên
-            value: "jdbc:mysql://mysql-service:3306/qlbh?useSSL=false"
-          - name: DB_USER
-            value: "admin"
-          - name: DB_PASSWORD
-            value: "Tai123456789"
+           - name: DB_URL
+              value: "jdbc:mysql://terraform-20260524154609304100000005.chom4aao050k.ap-southeast-1.rds.amazonaws.com:3306/qlbh?useSSL=false"
+            - name: DB_USER
+              value: "admin" # Tên user bạn đã cấu hình trong terraform
+            - name: DB_PASSWORD
+              value: "Tai123456789" # Mật khẩu bạn đã set
