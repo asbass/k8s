@@ -23,6 +23,6 @@ spec:
             # "mysql-service" chính là tên Service ở trên
             value: "jdbc:mysql://mysql-service:3306/qlbh?useSSL=false"
           - name: DB_USER
-            value: "root"
+            value: "admin"
           - name: DB_PASSWORD
-            value: "123456"
+            value: "Tai123456789"
